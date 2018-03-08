@@ -13,11 +13,9 @@ import com.pawe322.webmanager.beans.UserAccount;
  
 public class DBUtils {
  
-    public static UserAccount findUser(Connection conn, //
-            String userName, String password) throws SQLException {
+    public static UserAccount findUser(Connection conn, String userName, String password) throws SQLException {
  
-        String sql = "Select a.User_Name, a.Password, a.Gender from User_Account a " //
-                + " where a.User_Name = ? and a.password= ?";
+        String sql = "Select a.User_Name, a.Password, a.Gender from User_Account a where a.User_Name = ? and a.password= ?";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
         pstm.setString(1, userName);
@@ -37,8 +35,7 @@ public class DBUtils {
  
     public static UserAccount findUser(Connection conn, String userName) throws SQLException {
  
-        String sql = "Select a.User_Name, a.Password, a.Gender from User_Account a "//
-                + " where a.User_Name = ? ";
+        String sql = "Select a.User_Name, a.Password, a.Gender from User_Account a where a.User_Name = ? ";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
         pstm.setString(1, userName);
@@ -57,19 +54,21 @@ public class DBUtils {
         return null;
     }
  
-    public static List<Pet> queryProduct(Connection conn) throws SQLException {
-        String sql = "Select a.name, a.type_of_animal, a.age, a.height`[cm]` from pets a ";
+    public static List<Pet> queryPet(Connection conn) throws SQLException {
+        String sql = "Select a.id, a.name, a.type_of_animal, a.age, a.`height[cm]` from pets a ";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
  
         ResultSet rs = pstm.executeQuery();
         List<Pet> list = new ArrayList<Pet>();
         while (rs.next()) {
+        	Integer id = rs.getInt("id");
             String name = rs.getString("name");
             String typeOfAnimal = rs.getString("type_of_animal");
             Integer age = rs.getInt("age");
-            Integer height = rs.getInt("height`[cm]`");
+            Integer height = rs.getInt("height[cm]");
             Pet pet = new Pet();
+            pet.setId(id);
             pet.setName(name);
             pet.setTypeOfAnimal(typeOfAnimal);
             pet.setAge(age);
@@ -80,7 +79,7 @@ public class DBUtils {
     }
  
     public static Pet findPet(Connection conn, String name) throws SQLException {
-        String sql = "Select a.name, a.type_of_animal, a.age, a.height`[cm]` from pets where a.name=?";
+        String sql = "Select a.name, a.type_of_animal, a.age, a.height[cm] from pets where a.name=?";
         PreparedStatement pstm = conn.prepareStatement(sql);
         pstm.setString(1, name);
         ResultSet rs = pstm.executeQuery();
@@ -88,15 +87,15 @@ public class DBUtils {
         while (rs.next()) {
             String typeOfAnimal = rs.getString("type_of_animal");
             Integer age = rs.getInt("age");
-            Integer height = rs.getInt("height`[cm]`");
+            Integer height = rs.getInt("height[cm]");
             Pet pet = new Pet(typeOfAnimal, name, age, height);
             return pet;
         }
         return null;
     }
  
-    public static void updateProduct(Connection conn, Pet pet) throws SQLException {
-        String sql = "Update pets set name =?, type_of_animal=?, age=?, height`[cm]`=? where id=? ";
+    public static void updatePet(Connection conn, Pet pet) throws SQLException {
+        String sql = "Update pets set name =?, type_of_animal=?, age=?, height[cm]=? where id=? ";
         PreparedStatement pstm = conn.prepareStatement(sql);
         pstm.setString(1, pet.getName());
         pstm.setString(2, pet.getTypeOfAnimal());
@@ -105,8 +104,8 @@ public class DBUtils {
         pstm.executeUpdate();
     }
  
-    public static void insertProduct(Connection conn, Pet pet) throws SQLException {
-        String sql = "Insert into pets(name,type_of_animal,age,height`[cm]`) values (?,?,?)";
+    public static void insertPet(Connection conn, Pet pet) throws SQLException {
+        String sql = "Insert into pets(name,type_of_animal,age,`height[cm]`) values (?,?,?,?)";
         PreparedStatement pstm = conn.prepareStatement(sql);
         pstm.setString(1, pet.getName());
         pstm.setString(2, pet.getTypeOfAnimal());
@@ -115,7 +114,7 @@ public class DBUtils {
         pstm.executeUpdate();
     }
  
-    public static void deleteProduct(Connection conn, String id) throws SQLException {
+    public static void deletePet(Connection conn, String id) throws SQLException {
         String sql = "Delete From pets where id= ?";
         PreparedStatement pstm = conn.prepareStatement(sql);
         pstm.setString(1, id);
