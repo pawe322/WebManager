@@ -12,7 +12,7 @@
     
       <h3>Home Page</h3>
       
-      This is demo web application using jsp,servlet &amp; Jdbc. <br><br>
+      This is demo web application using JSP,Servlet &amp; JDBC. <br><br>
       <b>It includes the following functions:</b>
       <ul>
          <li>Login</li>

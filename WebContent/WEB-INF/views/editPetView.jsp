@@ -11,13 +11,12 @@
 	<h3>Edit Pet</h3>
 	<p style="color: red;">${errorString}</p>
 	<c:if test="${not empty pet}">
-		<form method="POST"
-			action="${pageContext.request.contextPath}/editPet">
+		<form method="POST" action="${pageContext.request.contextPath}/editPet">
 			<input type="hidden" name="name" value="${pet.name}" />
 			<table border="0">
 				<tr>
 					<td>Name</td>
-					<td style="color: red;">${pet.name}</td>
+					<td style="color:red;">${pet.name}</td>
 				</tr>
 				<tr>
 					<td>Type of animal</td>
@@ -32,8 +31,10 @@
 					<td><input type="text" name="height" value="${pet.height}" /></td>
 				</tr>
 				<tr>
-					<td colspan="2"><input type="submit" value="Submit" /> 
-					<a href="${pageContext.request.contextPath}/petList">Cancel</a></td>
+					<td colspan="2">
+						<input type="submit" value="Submit" /> 
+						<a href="${pageContext.request.contextPath}/petList">Cancel</a>
+					</td>
 				</tr>
 			</table>
 		</form>

@@ -15,7 +15,7 @@ import com.pawe322.webmanager.beans.Pet;
 import com.pawe322.webmanager.utils.DBUtils;
 import com.pawe322.webmanager.utils.MyUtils;
 
-@WebServlet(urlPatterns = { "/editProduct" })
+@WebServlet(urlPatterns = { "/editPet" })
 public class EditPetServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
  
@@ -42,13 +42,13 @@ public class EditPetServlet extends HttpServlet {
         // The product does not exist to edit.
         // Redirect to productList page.
         if (errorString != null && pet == null) {
-            response.sendRedirect(request.getServletPath() + "/productList");
+            response.sendRedirect(request.getServletPath() + "/petList");
             return;
         }
  
         // Store errorString in request attribute, before forward to views.
         request.setAttribute("errorString", errorString);
-        request.setAttribute("product", pet);
+        request.setAttribute("pet", pet);
         RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/WEB-INF/views/editPetView.jsp");
         dispatcher.forward(request, response);
     }

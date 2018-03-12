@@ -3,7 +3,6 @@ package com.pawe322.webmanager.servlet;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
  
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,37 +11,43 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pawe322.webmanager.beans.Pet;
 import com.pawe322.webmanager.utils.DBUtils;
 import com.pawe322.webmanager.utils.MyUtils;
  
-@WebServlet(urlPatterns = { "/petList" })
-public class PetListServlet extends HttpServlet {
+@WebServlet(urlPatterns = { "/deletePet" })
+public class DeletePetServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
- 
-    public PetListServlet() {
+    public DeletePetServlet() {
         super();
     }
  
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Connection conn = MyUtils.getStoredConnection(request);
+ 
+        String name = (String) request.getParameter("name");
+ 
         String errorString = null;
-        List<Pet> list = null;
+ 
         try {
-            list = DBUtils.queryPet(conn);
+            DBUtils.deletePet(conn, name);
         } catch (SQLException e) {
             e.printStackTrace();
             errorString = e.getMessage();
-        }
-        // Store info in request attribute, before forward to views
-        request.setAttribute("errorString", errorString);
-        request.setAttribute("petList", list);
+        } 
          
-        // Forward to /WEB-INF/views/productListView.jsp
-        RequestDispatcher dispatcher = request.getServletContext()
-                .getRequestDispatcher("/WEB-INF/views/petListView.jsp");
-        dispatcher.forward(request, response);
+        // If has an error, redirecte to the error page.
+        if (errorString != null) {
+            // Store the information in the request attribute, before forward to views.
+            request.setAttribute("errorString", errorString);
+            RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/WEB-INF/views/deletePetErrorView.jsp");
+            dispatcher.forward(request, response);
+        }
+        // If everything nice.
+        // Redirect to the product listing page.        
+        else {
+            response.sendRedirect(request.getContextPath() + "/petList");
+        }
     }
  
     @Override

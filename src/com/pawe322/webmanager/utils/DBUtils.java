@@ -79,7 +79,7 @@ public class DBUtils {
     }
  
     public static Pet findPet(Connection conn, String name) throws SQLException {
-        String sql = "Select a.name, a.type_of_animal, a.age, a.height[cm] from pets where a.name=?";
+        String sql = "Select a.name, a.type_of_animal, a.age, a.`height[cm]` from pets a where name=?";
         PreparedStatement pstm = conn.prepareStatement(sql);
         pstm.setString(1, name);
         ResultSet rs = pstm.executeQuery();
@@ -88,19 +88,19 @@ public class DBUtils {
             String typeOfAnimal = rs.getString("type_of_animal");
             Integer age = rs.getInt("age");
             Integer height = rs.getInt("height[cm]");
-            Pet pet = new Pet(typeOfAnimal, name, age, height);
+            Pet pet = new Pet(name, typeOfAnimal, age, height);
             return pet;
         }
         return null;
     }
  
     public static void updatePet(Connection conn, Pet pet) throws SQLException {
-        String sql = "Update pets set name =?, type_of_animal=?, age=?, height[cm]=? where id=? ";
+        String sql = "Update pets set type_of_animal=?, age=?, `height[cm]`=? where name=? ";
         PreparedStatement pstm = conn.prepareStatement(sql);
-        pstm.setString(1, pet.getName());
-        pstm.setString(2, pet.getTypeOfAnimal());
-        pstm.setInt(3, pet.getAge());
-        pstm.setInt(4, pet.getHeight());
+        pstm.setString(4, pet.getName());
+        pstm.setString(1, pet.getTypeOfAnimal());
+        pstm.setInt(2, pet.getAge());
+        pstm.setInt(3, pet.getHeight());
         pstm.executeUpdate();
     }
  
@@ -114,10 +114,10 @@ public class DBUtils {
         pstm.executeUpdate();
     }
  
-    public static void deletePet(Connection conn, String id) throws SQLException {
-        String sql = "Delete From pets where id= ?";
+    public static void deletePet(Connection conn, String name) throws SQLException {
+        String sql = "Delete From pets where name=?";
         PreparedStatement pstm = conn.prepareStatement(sql);
-        pstm.setString(1, id);
+        pstm.setString(1, name);
         pstm.executeUpdate();
     }
  

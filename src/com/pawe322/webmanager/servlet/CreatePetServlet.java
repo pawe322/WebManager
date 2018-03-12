@@ -36,8 +36,7 @@ public class CreatePetServlet extends HttpServlet {
     // When the user enters the product information, and click Submit.
     // This method will be called.
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Connection conn = MyUtils.getStoredConnection(request);
  
         String name = (String) request.getParameter("name");
@@ -53,16 +52,7 @@ public class CreatePetServlet extends HttpServlet {
         }
         
         Pet pet = new Pet(name, typeOfAnimal, age, height);
- 
         String errorString = null;
- 
-        // Product ID is the string literal [a-zA-Z_0-9]
-        // with at least 1 character
-//        String regex = "\\w+";
-// 
-//        if (code == null || !code.matches(regex)) {
-//            errorString = "Product Code invalid!";
-//        }
  
         if (errorString == null) {
             try {
@@ -79,13 +69,13 @@ public class CreatePetServlet extends HttpServlet {
  
         // If error, forward to Edit page.
         if (errorString != null) {
-            RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/WEB-INF/views/createProductView.jsp");
+            RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/WEB-INF/views/createPetView.jsp");
             dispatcher.forward(request, response);
         }
         // If everything nice.
         // Redirect to the product listing page.
         else {
-            response.sendRedirect(request.getContextPath() + "/productList");
+            response.sendRedirect(request.getContextPath() + "/petList");
         }
     }
  
