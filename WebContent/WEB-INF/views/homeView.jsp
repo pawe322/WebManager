@@ -10,7 +10,7 @@
      <jsp:include page="_header.jsp"></jsp:include>
      <jsp:include page="_menu.jsp"></jsp:include>
     
-      <h3>Home Page</h3>
+      <h3>Welcome!</h3>
       
       This is demo web application using JSP,Servlet &amp; JDBC. <br><br>
       <b>It includes the following functions:</b>
